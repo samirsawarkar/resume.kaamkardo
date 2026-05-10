@@ -31,6 +31,10 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "KaamKarDo" }],
   creator: "KaamKarDo",
+  metadataBase: new URL("https://resume.kaamkardo.com"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "Your Resume is Failing You. Find Out Why — Free.",
     description:

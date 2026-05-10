@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
+import { env } from "@/src/config/env";
 
 // ── Persistence Setup ─────────────────────────────────────────
 // Note: File-system persistence removed for Serverless environments (Vercel)
@@ -31,8 +32,8 @@ function calculatePercentile(domain: string, score: number) {
 
 // ── Ofox.ai client (OpenAI-compatible) ───────────────────────
 const client = new OpenAI({
-  apiKey: "sk-of-FWHINAXXrGNxrifuynutXuzlZTaXHUOYeuHaUZCxuaLxFrTRYrvxXNsfUmXjQyTN",
-  baseURL: "https://api.ofox.ai/v1",
+  apiKey: env.OPENAI_API_KEY,
+  baseURL: env.OPENAI_BASE_URL,
 });
 
 function buildPrompt(resumeText: string, jdText: string | null) {
@@ -299,7 +300,7 @@ export async function POST(req: NextRequest) {
     
     // 3. Brutal Truth section-specific penalties
     if (Array.isArray(result.brutal_truth)) {
-      result.brutal_truth.forEach(truth => {
+      result.brutal_truth.forEach((truth: string) => {
         const t = truth.toLowerCase();
         if (t.includes("education") || t.includes("gpa") || t.includes("degree") || t.includes("cert")) {
            s.education = Math.max(0, s.education - 2);

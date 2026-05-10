@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Allow: /ats-score
+Allow: /ats-score-for-freshers
+Allow: /why-is-my-resume-not-getting-shortlisted
+Allow: /resume-checker-for-tcs
+Allow: /pricing
+
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /checkout
+Disallow: /payment
+Disallow: /api/
+
+Sitemap: https://resume.kaamkardo.com/sitemap.xml

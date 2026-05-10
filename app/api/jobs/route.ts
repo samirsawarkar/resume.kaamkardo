@@ -15,7 +15,7 @@ export const POST = withAuth(async (req) => {
   const parsed = schema.safeParse(body);
 
   if (!parsed.success) {
-    throw new AppError(parsed.error.errors[0].message, 400);
+    throw new AppError(parsed.error.issues[0].message, 400);
   }
 
   const { q, location } = parsed.data;
