@@ -1,0 +1,501 @@
+{
+  "af20e439d3159def666d5a904587baad01f2203506b0e3c94e28425b1be9c142": {
+    "score": 95,
+    "grade": "A+",
+    "data_quality": {
+      "truncated": true,
+      "truncation_note": "Resume text cuts off abruptly at 'Quali' in the Professional Experience section, missing the final job entry.",
+      "extraction_confidence": "high"
+    },
+    "domain": "Manufacturing Systems Engineer",
+    "level": "Junior",
+    "fit_roles": [
+      "Manufacturing Systems Engineer",
+      "ERP Implementation Engineer",
+      "Supply Chain Analyst"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹8L–₹12L PA",
+      "real_potential": "₹8L–₹12L PA",
+      "gap_reason": "Strong quantification and live deployment experience offsetting fresher status, though truncation and lack of certifications slightly cap the upper range."
+    },
+    "brutal_truth": [
+      "Resume text is truncated at 'Quali' in the Professional Experience section, missing the final job entry.",
+      "Education section lacks GPA or certifications, resulting in a lower score for this category.",
+      "The 'Decision-Driven Impact' section repeats information already present in the project descriptions.",
+      "Despite strong skills, the profile is classified as 'Junior' due to less than 2 years of full-time experience."
+    ],
+    "top_skills": [
+      "Python",
+      "Odoo XML-RPC",
+      "ERPNext",
+      "MES Integration",
+      "OpenCV",
+      "Demand Forecasting",
+      "Inventory Optimization",
+      "FastAPI"
+    ],
+    "missing_skills": [
+      "AWS/Azure/GCP",
+      "Docker/Kubernetes",
+      "CI/CD Tools (Jenkins/GitLab)",
+      "ERPNext/Odoo Certification"
+    ],
+    "quick_fixes": [
+      "Complete the truncated Professional Experience section to ensure full parsing and context.",
+      "Add a specific GPA or relevant certifications (e.g., Odoo/ERPNext) to the Education section to boost the score.",
+      "Merge the 'Decision-Driven Impact' bullets into the main project descriptions to eliminate redundancy and improve ATS keyword density."
+    ],
+    "section_scores": {
+      "keywords": 20,
+      "achievements": 20,
+      "formatting": 15,
+      "summary": 10,
+      "experience": 15,
+      "education": 5,
+      "skills": 10
+    },
+    "score_audit": "Section scores sum to 95 (20+20+15+10+15+5+10).",
+    "rewrites": [],
+    "percentile": 99
+  },
+  "d9425f49856e3822b1ad7640d25a30b345c4604e61878bc965b73f7a37708ed0": {
+    "score": 95,
+    "grade": "A+",
+    "data_quality": {
+      "truncated": false,
+      "truncation_note": null,
+      "extraction_confidence": "high"
+    },
+    "domain": "Supply Chain Analytics Engineer",
+    "level": "Junior",
+    "fit_roles": [
+      "Supply Chain Analyst",
+      "Manufacturing Systems Engineer",
+      "ERP Implementation Engineer"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹10L–₹12L",
+      "real_potential": "₹12L–₹15L",
+      "gap_reason": "Strong production deployment and niche tech stack (Odoo XML-RPC, FastAPI) justify premium over standard fresher range."
+    },
+    "brutal_truth": [
+      "Missing GPA for B.Tech reduces education score from 10 to 8.",
+      "Title 'Technical Operations Lead' at a student level may raise skepticism regarding full-time engineering depth.",
+      "Forecasting project uses generic 'Walmart' dataset instead of a real client case study.",
+      "ScholarNote platform description lacks specific technical stack details (e.g., specific DB, framework versions)."
+    ],
+    "top_skills": [
+      "ERPNext",
+      "Odoo (XML-RPC)",
+      "Python (Pandas, XGBoost, Prophet)",
+      "Demand Forecasting",
+      "Inventory Optimization",
+      "BOM Architecture",
+      "n8n",
+      "Tableau"
+    ],
+    "missing_skills": [
+      "SAP",
+      "Advanced Excel (VLOOKUP, Pivot)",
+      "Power BI",
+      "Six Sigma",
+      "JIRA",
+      "AWS/Azure"
+    ],
+    "quick_fixes": [
+      "Add GPA to B.Tech education section to boost education score.",
+      "Specify the client name for the Supply Chain projects to validate 'Live Deployment'.",
+      "Expand the 'Technical Operations Lead' bullet points to include specific technologies (e.g., 'AWS Lambda', 'PostgreSQL')."
+    ],
+    "section_scores": {
+      "keywords": 20,
+      "achievements": 20,
+      "formatting": 15,
+      "summary": 10,
+      "experience": 15,
+      "education": 8,
+      "skills": 10
+    },
+    "score_audit": "Section scores sum to 98. Deduction of 3 applied for perfect section scores (Keywords, Achievements, Formatting, Summary, Skills, Experience). Final score is 95.",
+    "rewrites": [],
+    "percentile": 99
+  },
+  "2b22357a634b4221c3c6f43a756731962ca8b9147092717bf0595d2050f08131": {
+    "domain_reasoning": "The profile combines a B.Tech in Manufacturing Science with a Computer Vision project and Supply Chain analytics. According to the rule 'Computer Vision + Manufacturing = Manufacturing Quality Engineer', this is the most accurate classification.",
+    "domain": "Manufacturing Quality Engineer",
+    "deductions_applied": [
+      {
+        "rule": "Resume truncated",
+        "points_deducted": 8,
+        "section_affected": "formatting"
+      },
+      {
+        "rule": "No professional summary",
+        "points_deducted": 10,
+        "section_affected": "summary"
+      },
+      {
+        "rule": "Generic experience descriptions",
+        "points_deducted": 9,
+        "section_affected": "experience"
+      },
+      {
+        "rule": "Skills uncategorized",
+        "points_deducted": 2,
+        "section_affected": "skills"
+      }
+    ],
+    "score": 56,
+    "grade": "C+",
+    "data_quality": {
+      "truncated": true,
+      "truncation_note": "Resume text appears cut off before the end of the AI-Based Visual Inspection project description.",
+      "extraction_confidence": "low"
+    },
+    "level": "Fresher",
+    "fit_roles": [
+      "Manufacturing Quality Engineer",
+      "Manufacturing Systems Engineer",
+      "Supply Chain Analyst"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹6L–₹10L",
+      "real_potential": "₹6L–₹8L",
+      "gap_reason": "Lack of quantified achievements and specific tool names (Python, OpenCV) limits immediate impact."
+    },
+    "brutal_truth": [
+      "Resume text is truncated and cuts off mid-sentence in the AI-Based Visual Inspection project.",
+      "No professional summary is present, making it difficult for ATS to immediately identify the candidate's value proposition.",
+      "Only the Walmart project includes quantifiable metrics (RMSE, MAE); the Manufacturing CV project lacks specific performance numbers.",
+      "Missing specific technical tools like Python, Pandas, or OpenCV in the skills section."
+    ],
+    "top_skills": [
+      "Manufacturing Science and Engineering",
+      "Computer Vision",
+      "Machine Learning",
+      "Time Series Forecasting",
+      "Supply Chain Analytics",
+      "SARIMAX",
+      "XGBoost",
+      "Prophet"
+    ],
+    "missing_skills": [
+      "Python",
+      "SQL",
+      "OpenCV",
+      "Pandas",
+      "Tableau",
+      "ERP Systems"
+    ],
+    "quick_fixes": [
+      "Add a professional summary to immediately highlight the Manufacturing Engineering degree and Computer Vision expertise.",
+      "Quantify the AI-Based Visual Inspection project results (e.g., 'improved defect detection accuracy by X%') to match the Walmart project's strength.",
+      "Clean up the formatting and explicitly list technical tools like Python, OpenCV, and Pandas in the skills section."
+    ],
+    "section_scores": {
+      "keywords": 16,
+      "achievements": 10,
+      "formatting": 7,
+      "summary": 0,
+      "experience": 6,
+      "education": 9,
+      "skills": 8
+    },
+    "score_audit": "Section scores sum to 56. Deductions applied are 29 points (8+10+9+2). Final score is 56.",
+    "rewrites": [],
+    "percentile": 99
+  },
+  "de10caae5113b1985f86153b7d35a9f4014784a3c2568d2bad9201158cf398d8": {
+    "score": 88,
+    "grade": "B+",
+    "data_quality": {
+      "truncated": true,
+      "truncation_note": "Resume ends abruptly at 'Quali...' suggesting a missing final role.",
+      "extraction_confidence": "high"
+    },
+    "domain": "Manufacturing Systems Engineer",
+    "level": "Junior",
+    "fit_roles": [
+      "Manufacturing Systems Engineer",
+      "Supply Chain Analyst",
+      "ERP Implementation Engineer"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹6L–₹10L",
+      "real_potential": "₹7L–₹9L",
+      "gap_reason": "Missing final role 'Quali...' and lack of certifications reduce the upper bound of the salary range."
+    },
+    "brutal_truth": [
+      "Resume truncation at 'Quali...' severely impacts formatting score.",
+      "Missing final role 'Quali...' reduces experience score.",
+      "Open Source Contributions section is misplaced between 'Decision-Driven Impact' and 'Professional Experience'.",
+      "No certifications listed reduces education score."
+    ],
+    "top_skills": [
+      "Python",
+      "ERPNext",
+      "Odoo (XML-RPC)",
+      "MES Integration",
+      "OpenCV",
+      "FastAPI",
+      "n8n",
+      "Tableau"
+    ],
+    "missing_skills": [
+      "SAP",
+      "Six Sigma",
+      "AWS/Azure",
+      "Power BI",
+      "Jenkins/CI/CD",
+      "SQL (Advanced)"
+    ],
+    "quick_fixes": [
+      "Complete the resume by adding the missing 'Quali...' role with quantified achievements.",
+      "Move 'Open Source Contributions' to a dedicated section or Skills to fix structural inconsistency.",
+      "Add relevant certifications (e.g., Six Sigma Green Belt, AWS Cloud Practitioner) to boost education score."
+    ],
+    "section_scores": {
+      "keywords": 20,
+      "achievements": 20,
+      "formatting": 7,
+      "summary": 10,
+      "experience": 15,
+      "education": 6,
+      "skills": 10
+    },
+    "score_audit": "Section scores sum to 88 (20+20+7+10+15+6+10).",
+    "rewrites": [],
+    "percentile": 100
+  },
+  "39ef77935a37a3c09f496b1d10e7ccf6bfbd2f3164ba2cf5b8531db87842beb9": {
+    "score": 80,
+    "grade": "B+",
+    "data_quality": {
+      "truncated": true,
+      "truncation_note": "Resume cuts off at 'Root-cause analysis on solar panel e' in the NSOLAR internship entry.",
+      "extraction_confidence": "medium"
+    },
+    "domain": "Manufacturing Systems Engineer",
+    "level": "Junior",
+    "fit_roles": [
+      "Manufacturing Systems Engineer",
+      "Supply Chain Systems Analyst",
+      "ERP Implementation Engineer"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹7L – ₹9L",
+      "real_potential": "₹8L – ₹10L",
+      "gap_reason": "Lack of certifications and truncated internship entry reduce perceived completeness for senior roles."
+    },
+    "brutal_truth": [
+      "Resume truncation at the end of the NSOLAR internship prevents full verification of the role's scope.",
+      "Absence of certifications in the Education section limits credibility in competitive Manufacturing/ERP hiring.",
+      "The 'Decision-Driven Impact' section redundantly repeats data already detailed in the project descriptions.",
+      "The 'Technical Operations Lead' role is software-heavy, which dilutes the pure Manufacturing/Supply Chain signal."
+    ],
+    "top_skills": [
+      "Python",
+      "ERPNext",
+      "Odoo XML-RPC",
+      "OpenCV",
+      "MES Integration",
+      "n8n",
+      "FastAPI",
+      "Tableau"
+    ],
+    "missing_skills": [
+      "SAP",
+      "Six Sigma",
+      "Lean Manufacturing",
+      "MRP",
+      "PLM",
+      "SQL"
+    ],
+    "quick_fixes": [
+      "Complete the truncated NSOLAR internship description to verify full scope of responsibilities.",
+      "Add a relevant certification (e.g., Six Sigma Green Belt or SAP certification) to boost the Education score.",
+      "Merge the 'Decision-Driven Impact' section into the relevant project descriptions to reduce redundancy."
+    ],
+    "section_scores": {
+      "keywords": 20,
+      "achievements": 18,
+      "formatting": 7,
+      "summary": 10,
+      "experience": 11,
+      "education": 4,
+      "skills": 10
+    },
+    "score_audit": "Section scores sum to 88.",
+    "rewrites": [],
+    "percentile": 99,
+    "total_submissions": 3
+  },
+  "a60149a77a950ee76deafd08a450fdafa52330f5f1d12321f154c48e1fa981a2": {
+    "score": 68,
+    "grade": "C+",
+    "data_quality": {
+      "truncated": true,
+      "truncation_note": "The 'IoT-Based Smart Wheelchair with Patient Monitoring' project description is cut off mid-sentence.",
+      "extraction_confidence": "high"
+    },
+    "domain": "Manufacturing Systems Engineer",
+    "level": "Fresher",
+    "fit_roles": [
+      "Manufacturing Systems Engineer",
+      "Supply Chain & Procurement Analyst",
+      "ERP Implementation Engineer"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹7L–₹10L",
+      "real_potential": "₹7L–₹10L",
+      "gap_reason": "Low CGPA (5.59/10) and truncated project description reduce immediate hiring confidence."
+    },
+    "brutal_truth": [
+      "The resume is truncated at the end, cutting off the IoT project description which is a key technical achievement.",
+      "The summary incorrectly lists 'B.Tech 2026' as a current status, which is a future date relative to today (5/9/2026).",
+      "The internship at Dhoot Transmission was only 1 month long, limiting the depth of operational exposure.",
+      "The CGPA of 5.59/10 is significantly below the standard for COEP Technological University, raising concerns about academic consistency."
+    ],
+    "top_skills": [
+      "Odoo ERP",
+      "Python",
+      "XML-RPC API",
+      "Supply Chain Management",
+      "RFQ/PO Processing",
+      "Root Cause Analysis",
+      "Stochastic Inventory Modelling",
+      "Computer Vision"
+    ],
+    "missing_skills": [
+      "SAP S/4HANA (Mentioned in skills but not demonstrated in experience)",
+      "Six Sigma / Lean Manufacturing",
+      "Advanced Excel (VLOOKUP, Pivot Tables)",
+      "Manufacturing Execution System (MES)",
+      "JDA / Kinaxis (Demand Planning tools)"
+    ],
+    "quick_fixes": [
+      "Correct the graduation year in the summary from '2026' to '2025' or remove it to avoid confusion.",
+      "Complete the truncated IoT project description to show full technical scope and outcome.",
+      "Add a specific certification (e.g., Six Sigma Green Belt) or detailed Excel functions to the skills section to offset the low CGPA."
+    ],
+    "section_scores": {
+      "keywords": 18,
+      "achievements": 16,
+      "formatting": 7,
+      "summary": 4,
+      "experience": 10,
+      "education": 4,
+      "skills": 9
+    },
+    "score_audit": "Section scores sum to 76, which matches the total score.",
+    "rewrites": [],
+    "percentile": 99,
+    "total_submissions": 4
+  },
+  "ad07290b7dba9ef4c951f3611350ca05fd3f4615f89a0931c4b19f91926ad3a3": {
+    "score": 49,
+    "grade": "D",
+    "data_quality": {
+      "truncated": true,
+      "truncation_note": "Resume text cuts off at 'consistent production quality and throughput improvement' and 'Worked closely with contributors...'",
+      "extraction_confidence": "medium"
+    },
+    "domain": "Manufacturing Systems Engineer",
+    "level": "Fresher",
+    "fit_roles": [
+      "Manufacturing Systems Engineer",
+      "Supply Chain Analyst",
+      "Manufacturing Quality Engineer"
+    ],
+    "jd_match": {
+      "enabled": false,
+      "match_score": null,
+      "matched_keywords": [],
+      "missing_keywords": []
+    },
+    "salary": {
+      "current_projection": "₹6L - ₹8L",
+      "real_potential": "₹6L - ₹8L",
+      "gap_reason": "Future dates on projects and truncated descriptions reduce quantifiable impact."
+    },
+    "brutal_truth": [
+      "Resume contains future dates (2025) for the ScholarNote and Supply Chain Analytics projects, which is a major ATS red flag.",
+      "Resume text is truncated, cutting off the Walmart project description and the conclusion of the ScholarNote description.",
+      "No professional summary section is present, making it difficult for recruiters to quickly understand the candidate's value.",
+      "Formatting appears to be a table structure, which often breaks ATS parsers and reduces readability."
+    ],
+    "top_skills": [
+      "Manufacturing Science and Engineering",
+      "Computer Vision",
+      "Time Series Forecasting",
+      "Supply Chain Analytics",
+      "XGBoost",
+      "SARIMAX",
+      "Inventory Management",
+      "Manufacturing Sequencing"
+    ],
+    "missing_skills": [
+      "SQL",
+      "Tableau/PowerBI",
+      "Odoo/SAP",
+      "Six Sigma",
+      "Lean Manufacturing",
+      "PLC/HMI"
+    ],
+    "quick_fixes": [
+      "Remove future dates (2025) from the ScholarNote and Supply Chain Analytics entries to ensure accuracy.",
+      "Rewrite the truncated Walmart project description to include specific metrics (e.g., 'Reduced RMSE by X%') since the text is cut off.",
+      "Add a 3-line professional summary at the top to immediately highlight your Manufacturing Science background and technical skills."
+    ],
+    "section_scores": {
+      "keywords": 15,
+      "achievements": 6,
+      "formatting": 5,
+      "summary": 0,
+      "experience": 10,
+      "education": 8,
+      "skills": 5
+    },
+    "score_audit": "Section scores sum (55) equals total score (55).",
+    "rewrites": [],
+    "percentile": 99,
+    "total_submissions": 5
+  }
+}
