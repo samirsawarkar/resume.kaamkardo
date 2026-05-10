@@ -299,7 +299,7 @@ export async function POST(req: NextRequest) {
     
     // 3. Brutal Truth section-specific penalties
     if (Array.isArray(result.brutal_truth)) {
-      result.brutal_truth.forEach(truth => {
+      result.brutal_truth.forEach((truth: string) => {
         const t = truth.toLowerCase();
         if (t.includes("education") || t.includes("gpa") || t.includes("degree") || t.includes("cert")) {
            s.education = Math.max(0, s.education - 2);

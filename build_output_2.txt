@@ -1,0 +1,44 @@
+
+> resume-kaamkardo@0.1.0 build
+> next build
+
+   ▲ Next.js 15.3.2
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 7.0s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/15) ...
+   Generating static pages (3/15) 
+   Generating static pages (7/15) 
+   Generating static pages (11/15) 
+ ✓ Generating static pages (15/15)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    4.93 kB         219 kB
+├ ○ /_not-found                            978 B         102 kB
+├ ƒ /api/analyze-resume                    156 B         101 kB
+├ ƒ /api/checkout/mock                     156 B         101 kB
+├ ƒ /api/jobs                              156 B         101 kB
+├ ƒ /api/parse-resume                      156 B         101 kB
+├ ○ /ats-score                           6.62 kB         221 kB
+├ ○ /checkout                            3.08 kB         113 kB
+├ ○ /dashboard                           8.51 kB         232 kB
+├ ○ /dashboard/10-10-ats                 5.81 kB         220 kB
+├ ○ /login                               1.58 kB         216 kB
+├ ○ /payment                             1.43 kB         216 kB
+└ ○ /sitemap.xml                           156 B         101 kB
++ First Load JS shared by all             101 kB
+  ├ chunks/4bd1b696-79caff0c960666f8.js  53.2 kB
+  ├ chunks/684-003af868d19dffbf.js         46 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+ƒ Middleware                             87.9 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
