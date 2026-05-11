@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, Suspense, useEffect } from "react";
 import { createClient } from "@/utils/supabase/client";
 import CanvasBg from "@/components/canvas-bg";
 import Header from "@/components/header";
@@ -28,7 +28,7 @@ function LoginContent() {
         router.push(nextPath);
       }
     });
-  }, [nextPath, router, supabase.auth]);
+  }, [nextPath, router, supabase]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
