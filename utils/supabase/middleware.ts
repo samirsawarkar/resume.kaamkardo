@@ -37,7 +37,7 @@ export const updateSession = async (request: NextRequest) => {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth')
+  const isAuthPage = (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth')) && !request.nextUrl.pathname.startsWith('/auth/callback')
   const isCheckoutPage = request.nextUrl.pathname.startsWith('/checkout') || request.nextUrl.pathname.startsWith('/payment')
   const isDashboardPage = request.nextUrl.pathname.startsWith('/dashboard')
   const isAtsPage = request.nextUrl.pathname.startsWith('/ats-score')

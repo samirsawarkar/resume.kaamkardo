@@ -136,12 +136,20 @@ export default function Header() {
                       <span className="text-[9px] font-bold uppercase tracking-widest text-foreground/50 leading-none mb-0.5">Free Tier</span>
                     )}
                     <span className="text-xs font-medium text-foreground/80 truncate max-w-[100px] leading-none">
-                      {user.email?.split('@')[0]}
+                      {user.user_metadata?.full_name || user.email?.split('@')[0]}
                     </span>
                   </div>
-                  <div className="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 font-bold text-xs uppercase border border-emerald-500/20">
-                    {user.email?.[0] || "U"}
-                  </div>
+                  {user.user_metadata?.avatar_url ? (
+                    <img 
+                      src={user.user_metadata.avatar_url} 
+                      alt="Avatar" 
+                      className="w-7 h-7 rounded-full border border-border/50 object-cover"
+                    />
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 font-bold text-xs uppercase border border-emerald-500/20">
+                      {user.email?.[0] || "U"}
+                    </div>
+                  )}
                 </button>
 
                 {/* Profile Dropdown */}
@@ -158,7 +166,9 @@ export default function Header() {
                     >
                       <div className="p-4 border-b border-border/40 bg-background/50">
                         <p className="text-xs font-medium text-foreground/50 mb-1">Signed in as</p>
-                        <p className="text-sm font-bold truncate" title={user.email}>{user.email}</p>
+                        <p className="text-sm font-bold truncate" title={user.user_metadata?.full_name || user.email}>
+                          {user.user_metadata?.full_name || user.email}
+                        </p>
                       </div>
                       
                       <div className="p-4 border-b border-border/40 flex flex-col gap-2">
