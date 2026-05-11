@@ -69,7 +69,7 @@ export default function Hero() {
         {/* CTAs */}
         <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 mt-6">
           <Link
-            href="/dashboard"
+            href="/ats-score"
             className="group relative inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-4 font-bold text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-xl overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-violet-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

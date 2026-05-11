@@ -37,16 +37,32 @@ export const updateSession = async (request: NextRequest) => {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Protect /dashboard and /payment routes
-  if (
-    !user &&
-    (request.nextUrl.pathname.startsWith('/dashboard') ||
-     request.nextUrl.pathname.startsWith('/payment'))
-  ) {
+  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth')
+  const isCheckoutPage = request.nextUrl.pathname.startsWith('/checkout') || request.nextUrl.pathname.startsWith('/payment')
+  const isDashboardPage = request.nextUrl.pathname.startsWith('/dashboard')
+  const isAtsPage = request.nextUrl.pathname.startsWith('/ats-score')
+
+  // 1. Auth Gate: If trying to access protected areas and not logged in
+  if (!user && (isDashboardPage || isCheckoutPage)) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('next', request.nextUrl.pathname)
     return NextResponse.redirect(url)
+  }
+
+  // 2. Payment Gate: If logged in but not Pro
+  if (user && isDashboardPage) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('tier')
+      .eq('id', user.id)
+      .single()
+
+    if (profile?.tier !== 'pro') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/checkout'
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse

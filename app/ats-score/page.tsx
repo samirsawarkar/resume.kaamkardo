@@ -71,34 +71,48 @@ export default function AtsScorePage() {
     "Finalizing salary predictions..."
   ];
 
-  useEffect(() => {
-    let progressInterval: NodeJS.Timeout;
-    let messageInterval: NodeJS.Timeout;
-
-    if (loading) {
-      setLoadingProgress(0);
-      setLoadingMessageIdx(0);
-
-      progressInterval = setInterval(() => {
-        setLoadingProgress((prev) => {
-          if (prev >= 95) return 95;
-          return prev + 5;
-        });
-      }, 600);
-
-      messageInterval = setInterval(() => {
-        setLoadingMessageIdx((prev) => {
-          if (prev >= loadingMessages.length - 1) return prev;
-          return prev + 1;
-        });
-      }, 2500);
-    }
-
-    return () => {
-      clearInterval(progressInterval);
-      clearInterval(messageInterval);
-    };
-  }, [loading]);
+    useEffect(() => {
+      let progressTimer: NodeJS.Timeout;
+      let messageInterval: NodeJS.Timeout;
+  
+      if (loading) {
+        setLoadingProgress(0);
+        setLoadingMessageIdx(0);
+  
+        // Dynamic progress update
+        const updateProgress = () => {
+          setLoadingProgress((prev) => {
+            if (prev >= 99.5) return 99.5; // Cap at 99.5% until complete
+            
+            // Decelerating increment:
+            // 0-50%: Fast
+            // 50-85%: Medium
+            // 85-99%: Slow crawl
+            const remaining = 100 - prev;
+            const increment = Math.max(0.05, remaining / 30); 
+            
+            // Add a bit of randomness to make it feel "human"
+            const jitter = (Math.random() - 0.5) * 0.1;
+            return Math.min(99.5, prev + increment + jitter);
+          });
+          
+          // Random delay for the next "tick" to make it feel less robotic
+          const nextTick = Math.random() * 400 + 300; 
+          progressTimer = setTimeout(updateProgress, nextTick);
+        };
+  
+        updateProgress();
+  
+        messageInterval = setInterval(() => {
+          setLoadingMessageIdx((prev) => (prev + 1) % loadingMessages.length);
+        }, 3500);
+      }
+  
+      return () => {
+        clearTimeout(progressTimer);
+        clearInterval(messageInterval);
+      };
+    }, [loading]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -148,12 +162,17 @@ export default function AtsScorePage() {
       formData.append("jd_text", jdText.trim());
     }
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s timeout
+
     try {
       const res = await fetch("/api/analyze-resume", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
       const data = await res.json();
 
       if (!res.ok) {

@@ -30,11 +30,24 @@ function calculatePercentile(domain: string, score: number) {
   };
 }
 
-// ── Ofox.ai client (OpenAI-compatible) ───────────────────────
-const client = new OpenAI({
-  apiKey: env.OPENAI_API_KEY,
-  baseURL: env.OPENAI_BASE_URL,
-});
+// ── API Key Rotation Logic ──────────────────────────────────
+// We rotate between two keys to double our Rate Limit capacity.
+let currentKeyIndex = 0;
+function getRotatedClient() {
+  const keys = [env.OPENAI_API_KEY_1, env.OPENAI_API_KEY_2].filter(Boolean);
+  if (keys.length === 0) {
+    throw new Error("No OpenAI API keys configured.");
+  }
+  
+  // Pick the current key
+  const apiKey = keys[currentKeyIndex % keys.length];
+  currentKeyIndex++; // Increment for next request
+
+  return new OpenAI({
+    apiKey,
+    baseURL: env.OPENAI_BASE_URL || "https://api.ofox.ai/v1",
+  });
+}
 
 function buildPrompt(resumeText: string, jdText: string | null) {
   const currentDate = new Date().toLocaleDateString();
@@ -253,26 +266,53 @@ export async function POST(req: NextRequest) {
     // Note: Local cache removed for Serverless support. If a cache is needed,
     // a remote KV store like Redis or Vercel KV should be implemented here.
 
-    // Call 1: Scoring
-    let response;
-    try {
+    // Call 1: Scoring with Key Rotation & Exponential Backoff
+    let response: any = null;
+    let retries = 0;
+    const maxRetries = 3; // Reduced from 5 to avoid 5-minute hangs
+
+    while (retries <= maxRetries) {
+      const client = getRotatedClient();
+      
+      try {
         response = await client.chat.completions.create({
           model: "z-ai/glm-4.7-flash:free",
           messages: [
             { role: "system", content: "You are a strict ATS resume grader. Always respond with valid JSON only." },
             { role: "user", content: buildPrompt(resumeText, jdText) }
           ],
-          temperature: 0.0, // Force strict deterministic outputs
+          temperature: 0.0,
           max_tokens: 1500,
         });
-    } catch (e: any) {
+        break; 
+      } catch (e: any) {
+        if (e.status === 429 && retries < maxRetries) {
+          retries++;
+          // Exponential backoff: 2s, 4s, 8s
+          const waitTime = Math.min(8000, Math.pow(2, retries) * 1000);
+          console.log(`Rate limit hit (429). Switching key and waiting ${waitTime/1000}s... (Attempt ${retries}/${maxRetries})`);
+          await new Promise(resolve => setTimeout(resolve, waitTime));
+          continue;
+        }
         console.error("Scoring LLM Error:", e.response?.data || e.message);
-        throw new Error("API Limit Reached. Please try again in a moment.");
+        throw new Error(e.message || "AI Analysis failed. The provider is currently busy.");
+      }
+    }
+
+    if (!response) {
+      throw new Error("AI provider failed to return a response. Please try again.");
     }
 
     const raw = response.choices[0].message.content ?? "";
     const jsonStr = raw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
-    let result = JSON.parse(jsonStr);
+    
+    let result;
+    try {
+      result = JSON.parse(jsonStr);
+    } catch (parseErr) {
+      console.error("JSON Parse Error. Raw content:", raw);
+      throw new Error("AI returned an invalid format. This usually happens when the service is overloaded. Please try again.");
+    }
 
     // ── POST-PROCESSING (QUALITY GATE) ────────────────────────
     
@@ -354,24 +394,39 @@ export async function POST(req: NextRequest) {
     result.section_scores = s;
     // ─────────────────────────────────────────────────────────
 
-    // Call 2: Rewrites (If JD exists and score < 95)
+    // Call 2: Rewrites with Key Rotation & Exponential Backoff
     if (jdText && result.score < 95) {
-      try {
-        const rewriteRes = await client.chat.completions.create({
-          model: "z-ai/glm-4.7-flash:free",
-          messages: [
-            { role: "system", content: "You are an expert resume writer. Always respond with valid JSON only." },
-            { role: "user", content: buildRewritePrompt(resumeText, jdText) }
-          ],
-          temperature: 0.3,
-          max_tokens: 800,
-        });
-        const rewriteRaw = rewriteRes.choices[0].message.content ?? "";
-        const rewriteJsonStr = rewriteRaw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
-        result.rewrites = JSON.parse(rewriteJsonStr);
-      } catch (err) {
-        console.error("[analyze-resume] Rewrite suggestion failed:", err);
-        result.rewrites = []; // Don't fail the whole request if rewrites fail
+      let retryCount = 0;
+      const maxRetries = 3;
+      
+      while (retryCount <= maxRetries) {
+        const client = getRotatedClient();
+        try {
+          const rewriteRes = await client.chat.completions.create({
+            model: "z-ai/glm-4.7-flash:free",
+            messages: [
+              { role: "system", content: "You are an expert resume writer. Always respond with valid JSON only." },
+              { role: "user", content: buildRewritePrompt(resumeText, jdText) }
+            ],
+            temperature: 0.3,
+            max_tokens: 800,
+          });
+          const rewriteRaw = rewriteRes.choices[0].message.content ?? "";
+          const rewriteJsonStr = rewriteRaw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
+          result.rewrites = JSON.parse(rewriteJsonStr);
+          break; 
+        } catch (err: any) {
+          if (err.status === 429 && retryCount < maxRetries) {
+            retryCount++;
+            const waitTime = Math.min(8000, Math.pow(2, retryCount) * 1000);
+            console.log(`Rewrites: Rate limit hit. Waiting ${waitTime/1000}s...`);
+            await new Promise(resolve => setTimeout(resolve, waitTime));
+            continue;
+          }
+          console.error("[analyze-resume] Rewrite suggestion failed:", err.message);
+          result.rewrites = [];
+          break;
+        }
       }
     } else {
       result.rewrites = [];
