@@ -20,6 +20,15 @@ function LoginContent() {
   const nextPath = searchParams.get("next") || "/dashboard";
   
   const supabase = createClient();
+  
+  // Auto-redirect if already logged in
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        router.push(nextPath);
+      }
+    });
+  }, [nextPath, router, supabase.auth]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();

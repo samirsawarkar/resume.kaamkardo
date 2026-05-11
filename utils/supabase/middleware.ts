@@ -42,6 +42,14 @@ export const updateSession = async (request: NextRequest) => {
   const isDashboardPage = request.nextUrl.pathname.startsWith('/dashboard')
   const isAtsPage = request.nextUrl.pathname.startsWith('/ats-score')
 
+  // 0. Redirect away from login if already authenticated
+  if (user && isAuthPage) {
+    const nextPath = request.nextUrl.searchParams.get('next') || '/dashboard'
+    const url = request.nextUrl.clone()
+    url.pathname = nextPath
+    return NextResponse.redirect(url)
+  }
+
   // 1. Auth Gate: If trying to access protected areas and not logged in
   if (!user && (isDashboardPage || isCheckoutPage)) {
     const url = request.nextUrl.clone()
