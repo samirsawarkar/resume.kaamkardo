@@ -32,16 +32,15 @@ function calculatePercentile(domain: string, score: number) {
 
 // ── API Key Rotation Logic ──────────────────────────────────
 // We rotate between two keys to double our Rate Limit capacity.
-let currentKeyIndex = 0;
 function getRotatedClient() {
   const keys = [env.OPENAI_API_KEY_1, env.OPENAI_API_KEY_2].filter(Boolean);
   if (keys.length === 0) {
     throw new Error("No OpenAI API keys configured.");
   }
   
-  // Pick the current key
-  const apiKey = keys[currentKeyIndex % keys.length];
-  currentKeyIndex++; // Increment for next request
+  // Pick a random key to distribute load across accounts
+  const randomIndex = Math.floor(Math.random() * keys.length);
+  const apiKey = keys[randomIndex];
 
   return new OpenAI({
     apiKey,
