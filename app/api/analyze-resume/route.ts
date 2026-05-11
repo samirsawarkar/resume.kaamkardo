@@ -266,17 +266,22 @@ export async function POST(req: NextRequest) {
     // Note: Local cache removed for Serverless support. If a cache is needed,
     // a remote KV store like Redis or Vercel KV should be implemented here.
 
-    // Call 1: Scoring with Key Rotation & Exponential Backoff
+    // Call 1: Scoring with Key Rotation & Model Fallback
     let response: any = null;
     let retries = 0;
-    const maxRetries = 3; // Reduced from 5 to avoid 5-minute hangs
+    const maxRetries = 4;
+    
+    // We alternate between GLM and Gemini to maximize "Free" chances
+    const models = ["z-ai/glm-4.7-flash:free", "google/gemini-2.0-flash-lite:free"];
 
     while (retries <= maxRetries) {
       const client = getRotatedClient();
+      const model = models[retries % models.length]; // Alternate models
       
       try {
+        console.log(`Attempting analysis with model: ${model}...`);
         response = await client.chat.completions.create({
-          model: "z-ai/glm-4.7-flash:free",
+          model: model,
           messages: [
             { role: "system", content: "You are a strict ATS resume grader. Always respond with valid JSON only." },
             { role: "user", content: buildPrompt(resumeText, jdText) }
@@ -288,9 +293,8 @@ export async function POST(req: NextRequest) {
       } catch (e: any) {
         if (e.status === 429 && retries < maxRetries) {
           retries++;
-          // Exponential backoff: 2s, 4s, 8s
           const waitTime = Math.min(8000, Math.pow(2, retries) * 1000);
-          console.log(`Rate limit hit (429). Switching key and waiting ${waitTime/1000}s... (Attempt ${retries}/${maxRetries})`);
+          console.log(`429 Error (Rate Limit). Trying ${models[retries % models.length]} in ${waitTime/1000}s...`);
           await new Promise(resolve => setTimeout(resolve, waitTime));
           continue;
         }
