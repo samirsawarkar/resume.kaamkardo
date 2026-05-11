@@ -16,7 +16,7 @@ function calculatePercentile(domain: string, score: number) {
   // 80-89 -> Top 10-20%
   // 70-79 -> Top 30-50%
   // < 70 -> Bottom 50%
-  
+
   let percentile = 99; // Default
   if (score >= 95) percentile = Math.floor(Math.random() * 3) + 1; // 1-3
   else if (score >= 90) percentile = Math.floor(Math.random() * 5) + 4; // 4-8
@@ -24,8 +24,8 @@ function calculatePercentile(domain: string, score: number) {
   else if (score >= 70) percentile = Math.floor(Math.random() * 20) + 30; // 30-49
   else percentile = Math.floor(Math.random() * 30) + 60; // 60-89
 
-  return { 
-    percentile, 
+  return {
+    percentile,
     totalSubmissions: Math.floor(Math.random() * 1000) + 5000 // Mock volume
   };
 }
@@ -37,7 +37,7 @@ function getRotatedClient() {
   if (keys.length === 0) {
     throw new Error("No OpenAI API keys configured.");
   }
-  
+
   // Pick a random key to distribute load across accounts
   const randomIndex = Math.floor(Math.random() * keys.length);
   const apiKey = keys[randomIndex];
@@ -261,7 +261,7 @@ export async function POST(req: NextRequest) {
     const normalizedText = resumeText.replace(/\s+/g, " ").trim();
     const inputForHash = normalizedText + (jdText || "");
     const hash = crypto.createHash("sha256").update(inputForHash).digest("hex");
-    
+
     // Note: Local cache removed for Serverless support. If a cache is needed,
     // a remote KV store like Redis or Vercel KV should be implemented here.
 
@@ -269,14 +269,14 @@ export async function POST(req: NextRequest) {
     let response: any = null;
     let retries = 0;
     const maxRetries = 4;
-    
+
     // We alternate between GLM and Gemini to maximize "Free" chances
-    const models = ["z-ai/glm-4.7-flash:free", "google/gemini-2.0-flash-lite:free"];
+    const models = ["z-ai/glm-4.7-flash:free"];
 
     while (retries <= maxRetries) {
       const client = getRotatedClient();
       const model = models[retries % models.length]; // Alternate models
-      
+
       try {
         console.log(`Attempting analysis with model: ${model}...`);
         response = await client.chat.completions.create({
@@ -288,12 +288,12 @@ export async function POST(req: NextRequest) {
           temperature: 0.0,
           max_tokens: 1500,
         });
-        break; 
+        break;
       } catch (e: any) {
         if (e.status === 429 && retries < maxRetries) {
           retries++;
           const waitTime = Math.min(8000, Math.pow(2, retries) * 1000);
-          console.log(`429 Error (Rate Limit). Trying ${models[retries % models.length]} in ${waitTime/1000}s...`);
+          console.log(`429 Error (Rate Limit). Trying ${models[retries % models.length]} in ${waitTime / 1000}s...`);
           await new Promise(resolve => setTimeout(resolve, waitTime));
           continue;
         }
@@ -308,7 +308,7 @@ export async function POST(req: NextRequest) {
 
     const raw = response.choices[0].message.content ?? "";
     const jsonStr = raw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
-    
+
     let result;
     try {
       result = JSON.parse(jsonStr);
@@ -318,7 +318,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ── POST-PROCESSING (QUALITY GATE) ────────────────────────
-    
+
     const s = result.section_scores || {};
     s.keywords = Math.min(20, Math.max(0, s.keywords || 0));
     s.achievements = Math.min(20, Math.max(0, s.achievements || 0));
@@ -340,23 +340,23 @@ export async function POST(req: NextRequest) {
     if (s.summary === 0) {
       capTriggered = true;
     }
-    
+
     // 3. Brutal Truth section-specific penalties
     if (Array.isArray(result.brutal_truth)) {
       result.brutal_truth.forEach((truth: string) => {
         const t = truth.toLowerCase();
         if (t.includes("education") || t.includes("gpa") || t.includes("degree") || t.includes("cert")) {
-           s.education = Math.max(0, s.education - 2);
+          s.education = Math.max(0, s.education - 2);
         } else if (t.includes("experience") || t.includes("role") || t.includes("work") || t.includes("intern")) {
-           s.experience = Math.max(0, s.experience - 2);
+          s.experience = Math.max(0, s.experience - 2);
         } else if (t.includes("format") || t.includes("table") || t.includes("parse") || t.includes("font")) {
-           s.formatting = Math.max(0, s.formatting - 2);
+          s.formatting = Math.max(0, s.formatting - 2);
         } else if (t.includes("summary") || t.includes("objective")) {
-           s.summary = Math.max(0, s.summary - 2);
+          s.summary = Math.max(0, s.summary - 2);
         } else if (t.includes("skill") || t.includes("tool")) {
-           s.skills = Math.max(0, s.skills - 2);
+          s.skills = Math.max(0, s.skills - 2);
         } else {
-           s.achievements = Math.max(0, s.achievements - 2);
+          s.achievements = Math.max(0, s.achievements - 2);
         }
       });
     }
@@ -373,19 +373,19 @@ export async function POST(req: NextRequest) {
         result.salary.real_potential = result.salary.current_projection;
       }
     }
-    
+
     result.score = s.keywords + s.achievements + s.formatting + s.summary + s.experience + s.education + s.skills;
-    
+
     if (result.score > 90) {
-      const allAbove85Percent = 
+      const allAbove85Percent =
         s.keywords >= 17 && s.achievements >= 17 && s.formatting >= 12 &&
         s.summary >= 8 && s.experience >= 12 && s.education >= 8 && s.skills >= 8;
-        
+
       if (!allAbove85Percent || capTriggered) {
         result.score = Math.min(result.score, 85);
       }
     }
-    
+
     if (result.score >= 95) result.grade = "A+";
     else if (result.score >= 90) result.grade = "A";
     else if (result.score >= 80) result.grade = "B+";
@@ -401,7 +401,7 @@ export async function POST(req: NextRequest) {
     if (jdText && result.score < 95) {
       let retryCount = 0;
       const maxRetries = 3;
-      
+
       while (retryCount <= maxRetries) {
         const client = getRotatedClient();
         try {
@@ -417,12 +417,12 @@ export async function POST(req: NextRequest) {
           const rewriteRaw = rewriteRes.choices[0].message.content ?? "";
           const rewriteJsonStr = rewriteRaw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
           result.rewrites = JSON.parse(rewriteJsonStr);
-          break; 
+          break;
         } catch (err: any) {
           if (err.status === 429 && retryCount < maxRetries) {
             retryCount++;
             const waitTime = Math.min(8000, Math.pow(2, retryCount) * 1000);
-            console.log(`Rewrites: Rate limit hit. Waiting ${waitTime/1000}s...`);
+            console.log(`Rewrites: Rate limit hit. Waiting ${waitTime / 1000}s...`);
             await new Promise(resolve => setTimeout(resolve, waitTime));
             continue;
           }
