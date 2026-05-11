@@ -20,15 +20,26 @@ function LoginContent() {
   const nextPath = searchParams.get("next") || "/dashboard";
   
   const supabase = createClient();
+  const [isAlreadyLogged, setIsAlreadyLogged] = useState(false);
   
   // Auto-redirect if already logged in
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
+        setIsAlreadyLogged(true);
         router.push(nextPath);
       }
     });
   }, [nextPath, router, supabase]);
+
+  if (isAlreadyLogged) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 bg-card/50 backdrop-blur-md border border-border/60 rounded-3xl shadow-premium">
+        <Loader2 className="w-12 h-12 animate-spin text-emerald-500 mb-4" />
+        <p className="text-lg font-bold font-heading">Redirecting to OS...</p>
+      </div>
+    );
+  }
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
