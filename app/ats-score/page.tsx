@@ -163,7 +163,7 @@ export default function AtsScorePage() {
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s timeout
+    const timeoutId = setTimeout(() => controller.abort(), 150000); // 150s timeout (2.5 mins)
 
     try {
       const res = await fetch("/api/analyze-resume", {
