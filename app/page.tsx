@@ -46,7 +46,7 @@ export default function ResumeLandingPage() {
               Upload your resume for free. See the truth in 60 seconds.
             </p>
             <Link
-              href="/dashboard"
+              href="/ats-score"
               className="inline-flex items-center gap-2 rounded-full bg-emerald-500 text-white px-10 py-5 font-bold text-lg hover:bg-emerald-600 transition-colors shadow-[0_0_40px_rgba(16,185,129,0.3)] hover:shadow-[0_0_60px_rgba(16,185,129,0.5)]"
             >
               Get Free ATS Score

@@ -65,7 +65,7 @@ export default function Pricing() {
           </div>
 
           <Link
-            href="/dashboard"
+            href="/ats-score"
             className="w-full inline-flex justify-center items-center gap-2 rounded-xl border border-border/80 bg-background hover:bg-foreground/5 px-6 py-4 font-bold text-sm transition-colors"
           >
             Get Free Score
@@ -122,7 +122,7 @@ export default function Pricing() {
           </div>
 
           <Link
-            href="/dashboard"
+            href="/checkout"
             className="group w-full relative inline-flex justify-center items-center gap-2 rounded-xl bg-foreground text-background px-6 py-4 font-bold text-sm hover:scale-[1.02] transition-all overflow-hidden shadow-lg"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-violet-500/20 opacity-0 group-hover:opacity-100 transition-opacity" />

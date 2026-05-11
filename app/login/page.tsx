@@ -64,7 +64,9 @@ function LoginContent() {
           password,
         });
         if (error) throw error;
-        router.push(nextPath);
+        
+        // Use window.location.href instead of router.push to force a full session sync
+        window.location.href = nextPath;
       }
     } catch (err: any) {
       setError(err.message || "Authentication failed. Check your config.");

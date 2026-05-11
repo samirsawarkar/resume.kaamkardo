@@ -8,7 +8,7 @@ export function useDashboard() {
   const [user, setUser] = useState<any>(null);
   const [hasUploadedResume, setHasUploadedResume] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [rateLimited, setRateLimited] = useState(false);
   
   const [parsedRole, setParsedRole] = useState("Professional");
@@ -47,21 +47,22 @@ export function useDashboard() {
     
     // Fetch user and tier
     const supabase = createClient();
-    supabase.auth.getUser().then(async ({ data }) => {
-      if (data?.user) {
+    
+    const fetchUserAndTier = async (sessionUser: any) => {
+      if (sessionUser) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('tier')
-          .eq('id', data.user.id)
+          .eq('id', sessionUser.id)
           .single();
           
-        setUser({ ...data.user, tier: profile?.tier || 'free' });
+        setUser({ ...sessionUser, tier: profile?.tier || 'free' });
 
         // Also fetch the latest uploaded resume from DB if it exists
         const { data: latestResume } = await supabase
           .from('resumes')
           .select('*')
-          .eq('user_id', data.user.id)
+          .eq('user_id', sessionUser.id)
           .order('created_at', { ascending: false })
           .limit(1)
           .single();
@@ -69,11 +70,25 @@ export function useDashboard() {
         if (latestResume && latestResume.file_url) {
           setFileUrl(latestResume.file_url);
         }
-
       } else {
         setUser(null);
       }
+      setLoading(false);
+    };
+
+    // Initial fetch
+    supabase.auth.getUser().then(({ data }) => {
+      fetchUserAndTier(data?.user);
     });
+
+    // Listen for changes (Login/Logout)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      fetchUserAndTier(session?.user);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   // Manual job search function
@@ -236,6 +251,8 @@ export function useDashboard() {
 
       } catch (err) {
         console.error("Error fetching dashboard metrics:", err);
+      } finally {
+        setLoading(false);
       }
     };
 

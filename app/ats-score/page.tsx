@@ -561,7 +561,7 @@ export default function AtsScorePage() {
                     <p className="text-background/80 mb-8 max-w-lg mx-auto text-lg leading-relaxed">
                       Unlock our proprietary Claude 3.5 rewriting engine. We will structurally reconstruct your resume into a mathematically perfect PDF and hand you the 30-Day Job Hunt Tracker.
                     </p>
-                    <Link href="/payment" className="inline-block bg-background text-foreground px-10 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:scale-105 transition-transform shadow-xl">
+                    <Link href="/checkout" className="inline-block bg-background text-foreground px-10 py-4 rounded-full font-bold tracking-widest uppercase text-sm hover:scale-105 transition-transform shadow-xl">
                       Unlock Premium Analysis — ₹299
                     </Link>
                     <p className="text-background/50 text-xs mt-6 uppercase tracking-widest font-bold">Instant Delivery • Lifetime Access</p>

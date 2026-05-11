@@ -54,6 +54,25 @@ export default function DashboardPage() {
     searchJobs(searchRole || parsedRole, searchLoc);
   };
 
+  // 1. Loading State (Prevent Flash)
+  if (loading && !user) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <CanvasBg />
+        <Header />
+        <main className="relative z-10 flex-1 flex flex-col items-center justify-center">
+          <Loader2 className="w-12 h-12 animate-spin text-emerald-500 mb-4" />
+          <p className="text-lg font-bold font-heading animate-pulse">Initializing OS...</p>
+        </main>
+      </div>
+    );
+  }
+
+  // 2. Auth Check (Middleware handles redirect, but this prevents render)
+  if (!user && !loading) {
+    return null;
+  }
+
   if (user && user.tier !== 'pro') {
     return (
       <div className="min-h-screen flex flex-col bg-background">
