@@ -9,12 +9,22 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleTestPayment = () => {
+  const handleTestPayment = async () => {
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const res = await fetch("/api/checkout/mock", {
+        method: "POST",
+      });
+      if (!res.ok) {
+        throw new Error("Payment simulation failed");
+      }
       setSuccess(true);
-    }, 2000);
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

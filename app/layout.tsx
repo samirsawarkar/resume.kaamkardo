@@ -58,12 +58,33 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "KaamKarDo ATS Resume Score",
+    "operatingSystem": "Web",
+    "applicationCategory": "BusinessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "299",
+      "priceCurrency": "INR"
+    },
+    "description": "Upload your resume and get an instant ATS score (0–100), find out exactly why HR is rejecting you.",
+    "url": "https://resume.kaamkardo.com"
+  };
+
   return (
     <html
       lang="en"
       className={`${inter.variable} ${plusJakarta.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <ThemeProvider
           attribute="class"

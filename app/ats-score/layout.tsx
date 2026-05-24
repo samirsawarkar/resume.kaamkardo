@@ -1,19 +1,19 @@
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: "Check Your ATS Resume Score Instantly | KaamKarDo",
-  description: "Upload your resume and get a brutal, honest ATS score in seconds. See exactly what HR sees and find out why you aren't getting shortlisted.",
+  title: "Free ATS Resume Checker & Score Calculator | KaamKarDo",
+  description: "Upload your resume for a free, brutal ATS score. Find out exactly why HR is rejecting you and get instant feedback on missing keywords and formatting errors.",
   alternates: {
     canonical: "/ats-score",
   },
   openGraph: {
-    title: "Check Your ATS Resume Score Instantly | KaamKarDo",
-    description: "Upload your resume and get a brutal, honest ATS score in seconds. See exactly what HR sees and find out why you aren't getting shortlisted.",
+    title: "Free ATS Resume Checker & Score Calculator | KaamKarDo",
+    description: "Upload your resume for a free, brutal ATS score. Find out exactly why HR is rejecting you.",
     url: "https://resume.kaamkardo.com/ats-score",
   },
   twitter: {
-    title: "Check Your ATS Resume Score Instantly | KaamKarDo",
-    description: "Upload your resume and get a brutal, honest ATS score in seconds. See exactly what HR sees and find out why you aren't getting shortlisted.",
+    title: "Free ATS Resume Checker & Score Calculator | KaamKarDo",
+    description: "Upload your resume for a free, brutal ATS score. Find out exactly why HR is rejecting you.",
   }
 }
 

@@ -136,33 +136,9 @@ function PaidTierPanel() {
     {
       icon: FileText,
       title: "10/10 ATS Resume Generator",
-      desc: 'Claude 3.5 rewrites your bullets into "Action-Result" format. Exports a clean Harvard-style PDF.',
+      desc: 'Premium AI rewrites your bullets into "Action-Result" format. Exports a clean ATS-safe PDF.',
       tag: "AI Writing",
-    },
-    {
-      icon: Users,
-      title: "Top 100 Company Hitlist",
-      desc: "Pre-curated table of 100 tech companies (Startups, Mid-size, MNCs) matching your exact tech stack.",
-      tag: "Curated Data",
-    },
-    {
-      icon: Kanban,
-      title: "Job Kanban Tracker",
-      desc: "Visual board: To Apply → Cold Emailed → Interviewing → Rejected/Offer. Drag companies through stages.",
-      tag: "Productivity",
-    },
-    {
-      icon: Mail,
-      title: "1-Click Cold Email Generator",
-      desc: 'Click "Generate Email" next to any company. AI outputs a 3-line, aggressive, professional cold email.',
-      tag: "AI Writing",
-    },
-    {
-      icon: Rss,
-      title: "Daily Curated Job Feed",
-      desc: "10–20 fresh jobs from the last 24hrs, pre-filtered. No junk. Powered by Serper.dev.",
-      tag: "Live Data",
-    },
+    }
   ];
 
   return (

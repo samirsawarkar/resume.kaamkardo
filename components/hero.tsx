@@ -42,7 +42,7 @@ export default function Hero() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             <span>
-              DeepSeek AI Engine v2.0 Live — <strong className="font-bold">Instant Feedback</strong>
+              Free ATS Resume Check — <strong className="font-bold">Instant Feedback</strong>
             </span>
           </div>
         </motion.div>
@@ -50,11 +50,11 @@ export default function Hero() {
         {/* H1 */}
         <motion.h1
           variants={itemVariants}
-          className="text-5xl md:text-7xl lg:text-[5.5rem] font-black tracking-tight leading-[1.05] font-heading mt-4"
+          className="text-5xl md:text-6xl lg:text-[5rem] font-black tracking-tight leading-[1.05] font-heading mt-4"
         >
-          Your resume is{" "}
+          Paste Any Job Description.{" "}
           <br className="hidden md:block" />
-          <span className="text-foreground/30 bg-clip-text">costing you jobs.</span>
+          <span className="text-foreground/30 bg-clip-text">Get a Resume Optimized to Beat ATS in Seconds.</span>
         </motion.h1>
 
         {/* Subtext */}
@@ -62,8 +62,7 @@ export default function Hero() {
           variants={itemVariants}
           className="text-lg md:text-xl text-foreground/60 max-w-2xl leading-relaxed mt-2"
         >
-          Stop guessing. Get a brutal ATS score in seconds. Find out exactly why HR is rejecting you, and unlock your ultimate{" "}
-          <strong className="text-foreground font-bold">30-Day Job Hunt OS</strong>.
+          Tailor your resume for every application using AI trained to match recruiter and ATS expectations.
         </motion.p>
 
         {/* CTAs */}
@@ -73,14 +72,14 @@ export default function Hero() {
             className="group relative inline-flex items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-4 font-bold text-sm sm:text-base hover:scale-105 transition-all duration-300 shadow-xl overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-violet-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span className="relative z-10">Get Free ATS Score</span>
+            <span className="relative z-10">Check My Resume Free</span>
             <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
-            href="#how-it-works"
+            href="/ats-score"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-transparent border border-border/60 text-foreground/80 hover:text-foreground hover:bg-foreground/5 px-8 py-4 font-bold text-sm sm:text-base transition-all duration-300"
           >
-            See How It Works
+            Optimize for a Job Description
           </Link>
         </motion.div>
         <motion.p variants={itemVariants} className="text-xs text-foreground/40 mt-2">

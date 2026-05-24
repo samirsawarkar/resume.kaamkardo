@@ -4,6 +4,7 @@ import crypto from "crypto";
 import fs from "fs";
 import path from "path";
 import { env } from "@/src/config/env";
+import { extractJson } from "@/src/lib/json-extractor";
 
 // ── Persistence Setup ─────────────────────────────────────────
 // Note: File-system persistence removed for Serverless environments (Vercel)
@@ -32,19 +33,18 @@ function calculatePercentile(domain: string, score: number) {
 
 // ── API Key Rotation Logic ──────────────────────────────────
 // We rotate between two keys to double our Rate Limit capacity.
+let requestCount = 0;
 function getRotatedClient() {
-  const keys = [env.OPENAI_API_KEY_1, env.OPENAI_API_KEY_2].filter(Boolean);
-  if (keys.length === 0) {
-    throw new Error("No OpenAI API keys configured.");
-  }
-
-  // Pick a random key to distribute load across accounts
-  const randomIndex = Math.floor(Math.random() * keys.length);
-  const apiKey = keys[randomIndex];
-
+  requestCount++;
+  const key1 = process.env.OPENAI_API_KEY_1;
+  const key2 = process.env.OPENAI_API_KEY_2;
+  const baseUrl = process.env.OPENAI_BASE_URL || "https://api.aicredits.in/v1";
+  
+  const key = (requestCount % 2 === 0 && key2) ? key2 : (key1 || process.env.OPENAI_API_KEY_1);
+  
   return new OpenAI({
-    apiKey,
-    baseURL: env.OPENAI_BASE_URL || "https://api.ofox.ai/v1",
+    apiKey: key,
+    baseURL: baseUrl,
   });
 }
 
@@ -270,12 +270,11 @@ export async function POST(req: NextRequest) {
     let retries = 0;
     const maxRetries = 4;
 
-    // We alternate between GLM and Gemini to maximize "Free" chances
-    const models = ["z-ai/glm-4.7-flash:free"];
+    const models = ["google/gemini-2.5-flash-lite-preview-09-2025"];
 
     while (retries <= maxRetries) {
       const client = getRotatedClient();
-      const model = models[retries % models.length]; // Alternate models
+      const model = models[retries % models.length];
 
       try {
         console.log(`Attempting analysis with model: ${model}...`);
@@ -285,9 +284,12 @@ export async function POST(req: NextRequest) {
             { role: "system", content: "You are a strict ATS resume grader. Always respond with valid JSON only." },
             { role: "user", content: buildPrompt(resumeText, jdText) }
           ],
-          temperature: 0.0,
-          max_tokens: 1500,
+          temperature: 0.2,
+          max_tokens: 8000,
         });
+        
+        console.log("LLM RAW RESPONSE OBJECT:", JSON.stringify(response, null, 2));
+        
         break;
       } catch (e: any) {
         if (e.status === 429 && retries < maxRetries) {
@@ -307,14 +309,11 @@ export async function POST(req: NextRequest) {
     }
 
     const raw = response.choices[0].message.content ?? "";
-    const jsonStr = raw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
-
     let result;
     try {
-      result = JSON.parse(jsonStr);
+      result = extractJson(raw);
     } catch (parseErr) {
-      console.error("JSON Parse Error. Raw content:", raw);
-      throw new Error("AI returned an invalid format. This usually happens when the service is overloaded. Please try again.");
+      throw new Error(`AI returned an invalid format. Raw length: ${raw.length}, Raw start: [${raw.substring(0, 150)}]`);
     }
 
     // ── POST-PROCESSING (QUALITY GATE) ────────────────────────
@@ -406,17 +405,17 @@ export async function POST(req: NextRequest) {
         const client = getRotatedClient();
         try {
           const rewriteRes = await client.chat.completions.create({
-            model: "z-ai/glm-4.7-flash:free",
+            model: "google/gemini-2.5-flash-lite-preview-09-2025",
             messages: [
               { role: "system", content: "You are an expert resume writer. Always respond with valid JSON only." },
               { role: "user", content: buildRewritePrompt(resumeText, jdText) }
             ],
             temperature: 0.3,
-            max_tokens: 800,
+            max_tokens: 4000,
           });
+          console.log("REWRITE LLM RAW RESPONSE OBJECT:", JSON.stringify(rewriteRes, null, 2));
           const rewriteRaw = rewriteRes.choices[0].message.content ?? "";
-          const rewriteJsonStr = rewriteRaw.replace(/^```json\n?/, "").replace(/^```\n?/, "").replace(/\n?```$/, "").trim();
-          result.rewrites = JSON.parse(rewriteJsonStr);
+          result.rewrites = extractJson(rewriteRaw);
           break;
         } catch (err: any) {
           if (err.status === 429 && retryCount < maxRetries) {

@@ -91,31 +91,7 @@ export default function Header() {
               href="/dashboard#10-10-ats"
               className="text-xs md:text-sm font-bold bg-foreground text-background px-3 py-1.5 rounded-full shrink-0 transition-transform hover:scale-105"
             >
-              10/10 ATS
-            </Link>
-            <Link
-              href="/dashboard#hitlist"
-              className="text-xs md:text-sm font-medium text-foreground/60 hover:text-foreground transition-colors shrink-0"
-            >
-              Top Hitlist
-            </Link>
-            <Link
-              href="/dashboard#kanban"
-              className="text-xs md:text-sm font-medium text-foreground/60 hover:text-foreground transition-colors shrink-0"
-            >
-              Job Kanban Tracker
-            </Link>
-            <Link
-              href="/dashboard#cold-mail"
-              className="text-xs md:text-sm font-medium text-foreground/60 hover:text-foreground transition-colors shrink-0"
-            >
-              1-Click Cold Mail
-            </Link>
-            <Link
-              href="/dashboard#daily-feed"
-              className="text-xs md:text-sm font-medium text-foreground/60 hover:text-foreground transition-colors shrink-0"
-            >
-              Daily Curated Job Feed
+              Premium Optimizer
             </Link>
           </div>
 

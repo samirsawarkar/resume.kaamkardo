@@ -32,7 +32,8 @@ export function useDashboard() {
   // Check localStorage for previous session
   useEffect(() => {
     const savedData = localStorage.getItem("parsed_resume_data");
-    if (savedData) {
+    const rawText = localStorage.getItem("raw_resume_text");
+    if (savedData && rawText) {
       try {
         const result: ParsedResumeData = JSON.parse(savedData);
         setAtsScore(result.score || 0);
@@ -168,6 +169,9 @@ export function useDashboard() {
       
       // Save to localStorage
       localStorage.setItem("parsed_resume_data", JSON.stringify(data));
+      if (data.extractedText) {
+        localStorage.setItem("raw_resume_text", data.extractedText);
+      }
       setHasUploadedResume(true);
       toast.success("Resume parsed and uploaded successfully");
 

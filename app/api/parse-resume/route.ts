@@ -4,10 +4,11 @@ import pdf from "pdf-parse";
 import { withAuth } from "@/src/lib/auth-guard";
 import { env } from "@/src/config/env";
 import { AppError } from "@/src/lib/errors";
+import { extractJson } from "@/src/lib/json-extractor";
 
 const openai = new OpenAI({
-  apiKey: "sk-of-FWHINAXXrGNxrifuynutXuzlZTaXHUOYeuHaUZCxuaLxFrTRYrvxXNsfUmXjQyTN",
-  baseURL: "https://api.ofox.ai/v1",
+  apiKey: process.env.OPENAI_API_KEY_1 || process.env.OPENAI_API_KEY_2 || "dummy-key-for-build",
+  baseURL: process.env.OPENAI_BASE_URL || "https://api.aicredits.in/v1",
 });
 
 export const POST = withAuth(async (req) => {
@@ -38,7 +39,7 @@ export const POST = withAuth(async (req) => {
   // 2. Analyze the extracted text with OpenAI
   try {
     const completion = await openai.chat.completions.create({
-      model: "z-ai/glm-4.7-flash:free",
+      model: process.env.AI_MODEL_THINKING || "z-ai/glm-4-32b",
       messages: [
         {
           role: "system",
@@ -57,6 +58,7 @@ export const POST = withAuth(async (req) => {
           content: `Here is the raw resume text:\n\n${extractedText.substring(0, 15000)}`
         }
       ],
+      temperature: 0.2,
       response_format: { type: "json_object" }
     });
 
@@ -66,7 +68,14 @@ export const POST = withAuth(async (req) => {
       throw new AppError("AI failed to generate a response.", 500);
     }
     
-    const analysis = JSON.parse(responseContent);
+    let analysis;
+    try {
+      analysis = extractJson(responseContent);
+      analysis.extractedText = extractedText; // Inject raw text so frontend can save it for Premium path
+    } catch (e) {
+      console.error("Failed to parse parse-resume output:", responseContent);
+      throw new AppError("AI returned an invalid JSON format.", 500);
+    }
     return NextResponse.json(analysis, { status: 200 });
 
   } catch (error: any) {

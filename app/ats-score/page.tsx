@@ -185,6 +185,9 @@ export default function AtsScorePage() {
         // Save to localStorage so the premium Dashboard can pick it up without re-uploading
         if (typeof window !== "undefined") {
           localStorage.setItem('parsed_resume_data', JSON.stringify(data.result));
+          if (data.result.extractedText) {
+            localStorage.setItem('raw_resume_text', data.result.extractedText);
+          }
         }
         setLoading(false);
       }, 600);
@@ -203,6 +206,41 @@ export default function AtsScorePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is an ATS resume score?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "An ATS (Applicant Tracking System) resume score is a metric that determines how well your resume matches a specific job description. It evaluates keyword density, formatting readability, and impact metrics to predict if HR software will automatically reject or shortlist your application."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this ATS resume checker really free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, our ATS resume checker is 100% free to use. You get an instant score, formatting audit, and a 'Brutal Truth' feedback report highlighting your resume's critical vulnerabilities and missing skills without any hidden charges."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can ATS systems read PDF resumes?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Most modern ATS systems can read standard text-based PDFs. However, if your PDF uses complex formatting like columns, tables, or text boxes, the ATS might fail to parse your information correctly. We recommend standardizing your layout or using a clean DOCX file."
+                }
+              }
+            ]
+          })
+        }}
+      />
       <CanvasBg />
       <Header />
 
@@ -584,6 +622,70 @@ export default function AtsScorePage() {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* ── SEO Content Section (Only visible on initial load) ── */}
+          {!result && !loading && (
+            <div className="mt-32 max-w-3xl mx-auto text-left space-y-20 pb-20">
+              {/* What is ATS */}
+              <section>
+                <h2 className="text-3xl font-black font-heading tracking-tight mb-6 text-foreground/90">
+                  What is an ATS Resume Score?
+                </h2>
+                <p className="text-foreground/70 leading-relaxed text-lg mb-6">
+                  An <strong>ATS (Applicant Tracking System)</strong> is software used by 98% of Fortune 500 companies to filter resumes before a human ever sees them. An ATS resume score measures how well your document matches the job description, checking for keyword density, formatting readability, and impact metrics.
+                </p>
+                <p className="text-foreground/70 leading-relaxed text-lg">
+                  Our <strong>Free ATS Resume Checker</strong> simulates this exact process, giving you a brutal, honest look at why your resume might be failing the bot filters.
+                </p>
+              </section>
+
+              {/* How it works */}
+              <section>
+                <h2 className="text-3xl font-black font-heading tracking-tight mb-6 text-foreground/90">
+                  How Our AI ATS Checker Works
+                </h2>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="bg-card/30 border border-border/50 rounded-2xl p-8 hover:bg-card/50 transition-colors">
+                    <h3 className="font-bold text-emerald-500 mb-3 text-lg">1. Layout & Parsing Audit</h3>
+                    <p className="text-sm text-foreground/70 leading-relaxed">We test if standard ATS parsers can read your PDF without scrambling the text or missing critical contact information.</p>
+                  </div>
+                  <div className="bg-card/30 border border-border/50 rounded-2xl p-8 hover:bg-card/50 transition-colors">
+                    <h3 className="font-bold text-violet-500 mb-3 text-lg">2. Keyword Matching</h3>
+                    <p className="text-sm text-foreground/70 leading-relaxed">We cross-reference your skills against your target Job Description to find critical missing keywords and evaluate density.</p>
+                  </div>
+                  <div className="bg-card/30 border border-border/50 rounded-2xl p-8 hover:bg-card/50 transition-colors">
+                    <h3 className="font-bold text-amber-500 mb-3 text-lg">3. Impact Evaluation</h3>
+                    <p className="text-sm text-foreground/70 leading-relaxed">We analyze your bullet points for measurable outcomes, active verbs, and clear business impact rather than just listing responsibilities.</p>
+                  </div>
+                  <div className="bg-card/30 border border-border/50 rounded-2xl p-8 hover:bg-card/50 transition-colors">
+                    <h3 className="font-bold text-red-500 mb-3 text-lg">4. The Brutal Truth</h3>
+                    <p className="text-sm text-foreground/70 leading-relaxed">You get an unvarnished, actionable report of why HR would reject you, and exactly how to remediate the vulnerabilities.</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* FAQs */}
+              <section>
+                <h2 className="text-3xl font-black font-heading tracking-tight mb-8 text-foreground/90">
+                  Frequently Asked Questions
+                </h2>
+                <div className="space-y-4">
+                  <div className="border border-border/50 rounded-2xl p-8 bg-card/20">
+                    <h3 className="font-bold text-xl mb-3 text-foreground/90">Is this ATS resume checker really free?</h3>
+                    <p className="text-foreground/70 leading-relaxed">Yes! You can upload your resume and get an instant score, formatting audit, and a 'Brutal Truth' feedback report highlighting your vulnerabilities without paying anything.</p>
+                  </div>
+                  <div className="border border-border/50 rounded-2xl p-8 bg-card/20">
+                    <h3 className="font-bold text-xl mb-3 text-foreground/90">Can ATS systems read PDF resumes?</h3>
+                    <p className="text-foreground/70 leading-relaxed">Most modern ATS software can read standard text-based PDFs. However, if your PDF uses complex formatting (columns, tables, graphics), it will fail to parse. Our tool tests your file for exactly this vulnerability.</p>
+                  </div>
+                  <div className="border border-border/50 rounded-2xl p-8 bg-card/20">
+                    <h3 className="font-bold text-xl mb-3 text-foreground/90">What is a good ATS score?</h3>
+                    <p className="text-foreground/70 leading-relaxed">A score of 80 or above is considered excellent and highly likely to be shortlisted. Anything below 60 is at critical risk of automatic rejection.</p>
+                  </div>
+                </div>
+              </section>
+            </div>
+          )}
         </div>
       </main>
     </div>

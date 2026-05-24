@@ -8,7 +8,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 const features = [
   {
     icon: Brain,
-    title: "DeepSeek ATS Parsing",
+    title: "Free ATS Resume Check",
     description: "Upload your PDF. We extract the exact keywords you're missing to beat HR filters.",
     colSpan: "md:col-span-2",
     bg: "bg-emerald-500/5",
@@ -17,8 +17,8 @@ const features = [
   },
   {
     icon: Target,
-    title: "Top 100 Hitlist",
-    description: "Get a curated list of exactly who to target based on your parsed skills.",
+    title: "Recruiter Intent Alignment",
+    description: "Our AI reads between the lines of the Job Description to highlight what they really want.",
     colSpan: "md:col-span-1",
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
@@ -26,8 +26,8 @@ const features = [
   },
   {
     icon: LayoutDashboard,
-    title: "Kanban Job Tracker",
-    description: "Never lose track. Drag and drop from 'Applied' to 'Offer' in a permanent visual board.",
+    title: "Tailor Resume for This Job",
+    description: "Get naturally rewritten bullets that emphasize your relevance without fake keywords.",
     colSpan: "md:col-span-1",
     bg: "bg-amber-500/5",
     border: "border-amber-500/20",
@@ -35,8 +35,8 @@ const features = [
   },
   {
     icon: Mail,
-    title: "1-Click Cold Email",
-    description: "Instantly generate aggressive, professional cold emails to hiring managers with your attached resume.",
+    title: "Clean ATS-Safe PDF Export",
+    description: "Boring is better. Download a single-column, highly scannable PDF optimized for software.",
     colSpan: "md:col-span-2",
     bg: "bg-blue-500/5",
     border: "border-blue-500/20",
@@ -49,11 +49,11 @@ export default function FeaturesGrid() {
     <section id="how-it-works" className="relative z-10 px-6 py-24 md:py-32 max-w-6xl mx-auto">
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-5xl font-black font-heading tracking-tight mb-4">
-          Not just a resume scanner.<br/>
-          <span className="text-foreground/40">It's a complete Job Hunt OS.</span>
+          Stop applying into the void.<br/>
+          <span className="text-foreground/40">Optimize specifically for the role.</span>
         </h2>
         <p className="text-foreground/50 max-w-2xl mx-auto text-lg">
-          Stop applying into the void. Get your brutal ATS truth, then use our integrated tools to get hired in 30 days.
+          Get your ATS truth, paste any Job Description, and receive an interview-ready resume in seconds.
         </p>
       </div>
 
