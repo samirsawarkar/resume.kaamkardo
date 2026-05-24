@@ -270,7 +270,9 @@ export async function POST(req: NextRequest) {
     let retries = 0;
     const maxRetries = 4;
 
-    const models = ["google/gemini-2.5-flash-lite-preview-09-2025"];
+    const models = [
+      process.env.AI_MODEL_LIGHT || "google/gemini-2.5-flash-lite-preview-09-2025"
+    ];
 
     while (retries <= maxRetries) {
       const client = getRotatedClient();
@@ -405,7 +407,7 @@ export async function POST(req: NextRequest) {
         const client = getRotatedClient();
         try {
           const rewriteRes = await client.chat.completions.create({
-            model: "google/gemini-2.5-flash-lite-preview-09-2025",
+            model: process.env.AI_MODEL_LIGHT || "google/gemini-2.5-flash-lite-preview-09-2025",
             messages: [
               { role: "system", content: "You are an expert resume writer. Always respond with valid JSON only." },
               { role: "user", content: buildRewritePrompt(resumeText, jdText) }

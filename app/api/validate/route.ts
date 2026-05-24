@@ -46,7 +46,9 @@ export const POST = withAuth(async (req, user) => {
       throw new AppError("Missing optimized resume JSON", 400);
     }
 
-    const models = ["google/gemini-2.5-flash-lite-preview-09-2025"];
+    const models = [
+      process.env.AI_MODEL_LIGHT || "google/gemini-2.5-flash-lite-preview-09-2025"
+    ];
     let response: any = null;
     let retries = 0;
     const maxRetries = 3;
