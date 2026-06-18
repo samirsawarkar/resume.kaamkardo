@@ -43,12 +43,25 @@ export const metadata: Metadata = {
     siteName: "KaamKarDo Resume",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/resume-logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "KaamKarDo Resume — ATS Score Checker",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Free ATS Resume Score | KaamKarDo",
     description:
       "Upload your resume. Get your score. Unlock the 30-Day Job Hunt OS.",
+    images: ["/resume-logo.png"],
+  },
+  icons: {
+    icon: "/resume-logo.png",
+    apple: "/resume-logo.png",
   },
   robots: { index: true, follow: true },
 };
@@ -64,6 +77,7 @@ export default function RootLayout({
     "name": "KaamKarDo ATS Resume Score",
     "operatingSystem": "Web",
     "applicationCategory": "BusinessApplication",
+    "image": "https://resume.kaamkardo.com/resume-logo.png",
     "offers": {
       "@type": "Offer",
       "price": "299",
